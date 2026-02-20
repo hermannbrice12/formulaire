@@ -256,7 +256,7 @@ export default function Home() {
               <p className="mb-6 text-gray-600 leading-relaxed">Accélérez le développement de votre startup grâce à deux ateliers stratégiques.</p>
               <ul className="mb-8 space-y-3 text-gray-700">
                 <li>🇪🇺 Réussir son appel à projet Européen</li>
-                <li>📈 Go to market : vendre à ses premiers clients</li>
+                <li>Go to market : vendre à ses premiers clients</li>
               </ul>
               <div className="mb-8">
                 <p className="text-sm text-gray-500 font-semibold mb-4">Avec le soutien de :</p>
