@@ -171,7 +171,7 @@ export default function Home() {
         )}
 
         <AnimatePresence mode="wait">
-          {/* STEP 1 - STRUCTURÉE EN 3 PARTIES AVEC LOGO HEADER AGRANDI */}
+          {/* STEP 1 - STRUCTURÉE EN 3 PARTIES */}
           {step === 1 && (
             <motion.div 
               key="step1" 
@@ -182,13 +182,21 @@ export default function Home() {
               className="flex flex-col h-full"
             >
               
-              {/* ✅ LOGO HEADER - TOUT EN HAUT (AGRANDI) */}
-              <div className="flex justify-center mb-6 md:mb-8">
+              {/* ✅ LOGO HEADER - TOUT EN HAUT */}
+              <div className="flex justify-center mb-4 md:mb-6">
                 <img 
                   src="/logos/header.jpeg" 
                   alt="Logo header" 
-                  className="w-full h-auto object-contain"
+                  className="w-[180%] md:w-[180%] h-auto object-contain"
                 />
+              </div>
+
+              {/* ✅ TEXTE "FORMULAIRE D'INSCRIPTION" */}
+              <div className="text-center mb-6 md:mb-8">
+                <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-gray-700">
+                  Formulaire d'inscription
+                </h2>
+                <div className="w-16 h-1 bg-black mx-auto rounded-full mt-3"></div>
               </div>
 
               {/* ✅ HEADER */}
@@ -221,7 +229,7 @@ export default function Home() {
                 {/* Logo partenaires */}
                 <div className="mb-8">
                   <p className="text-base md:text-lg text-gray-500 font-semibold mb-6 text-center">
-                    Nos partenaires
+                   
                   </p>
                   <div className="flex justify-center items-center bg-gray-50 rounded-xl p-6">
                     <img 
@@ -239,10 +247,10 @@ export default function Home() {
                   onClick={nextStep} 
                   className="w-full bg-black text-white py-4 md:py-5 rounded-xl hover:opacity-90 transition text-lg md:text-xl font-semibold shadow-lg hover:shadow-xl"
                 >
-                  Je m'inscris gratuitement
+                  Je m'inscris
                 </button>
                 <p className="text-center text-gray-400 text-sm mt-4">
-                  Durée estimée : 2 minutes • Inscription gratuite
+                  Durée estimée : 45 secondes • Inscription gratuite
                 </p>
               </footer>
 
