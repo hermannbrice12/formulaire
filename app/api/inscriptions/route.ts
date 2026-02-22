@@ -8,7 +8,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     console.log('📦 Données reçues:', body);
     
-    // Insertion dans Supabase
+    // Insertion dans Supabase - CHAMPS MIS À JOUR
     const { data, error } = await supabase
       .from('inscriptions')
       .insert([
@@ -17,8 +17,8 @@ export async function POST(request: NextRequest) {
           prenom: body.prenom,
           email: body.email,
           telephone: body.telephone,
-          pays: body.pays,
-          adresse: body.adresse,
+          poste: body.poste,              // ← Remplace "pays"
+          startup: body.startup,          // ← Remplace "adresse"
           ateliers: body.ateliers.join(', '),
           created_at: new Date().toISOString(),
         },

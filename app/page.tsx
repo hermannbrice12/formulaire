@@ -1,16 +1,16 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-// ✅ Types TypeScript
+// ✅ Types TypeScript - MODIFIÉS
 interface FormData {
   nom: string;
   prenom: string;
   email: string;
   telephone: string;
-  pays: string;
-  adresse: string;
+  poste: string;           // ← Remplace "pays"
+  startup: string;         // ← Remplace "adresse"
   ateliers: string[];
 }
 
@@ -27,17 +27,7 @@ interface FormInputProps {
   error?: string;
 }
 
-interface FormSelectProps {
-  label: string;
-  name: string;
-  value: string;
-  onChange: (name: string, value: string) => void;
-  options: string[];
-  error?: string;
-  loading?: boolean;
-}
-
-// ✅ Composant Input
+// ✅ Composant Input (inchangé)
 function FormInput({ label, name, type = "text", value, onChange, error }: FormInputProps) {
   return (
     <div>
@@ -55,95 +45,32 @@ function FormInput({ label, name, type = "text", value, onChange, error }: FormI
   );
 }
 
-// ✅ Composant Select avec loading
-function FormSelect({ label, name, value, onChange, options, error, loading = false }: FormSelectProps) {
-  return (
-    <div>
-      <select
-        value={value}
-        onChange={(e) => onChange(name, e.target.value)}
-        disabled={loading}
-        className={`w-full border p-3 rounded-xl outline-none focus:ring-2 transition ${
-          error ? "border-red-500 focus:ring-red-500" : "focus:ring-black"
-        } ${loading ? "bg-gray-100 cursor-wait" : ""}`}
-      >
-        <option value="">
-          {loading ? "Chargement des pays..." : label}
-        </option>
-        {options.map((opt) => (
-          <option key={opt} value={opt}>{opt}</option>
-        ))}
-      </select>
-      {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
-    </div>
-  );
-}
-
 export default function Home() {
   const [step, setStep] = useState(1);
   const totalSteps = 3;
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // ✅ State formData - MODIFIÉ
   const [formData, setFormData] = useState<FormData>({
     nom: "",
     prenom: "",
     email: "",
     telephone: "",
-    pays: "",
-    adresse: "",
+    poste: "",              // ← Nouveau champ
+    startup: "",            // ← Nouveau champ
     ateliers: [],
   });
 
   const [errors, setErrors] = useState<Errors>({});
-  const [paysList, setPaysList] = useState<string[]>([]);
-  const [paysLoading, setPaysLoading] = useState(true);
 
-  // ✅ Fetch des pays depuis l'API REST Countries - URL CORRIGÉE
-  useEffect(() => {
-    const fetchCountries = async () => {
-      try {
-        // ✅ URL sans espaces à la fin
-        const response = await fetch("https://restcountries.com/v3.1/all?fields=name");
-        
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        
-        const data = await response.json();
-        
-        if (!Array.isArray(data)) throw new Error("Données invalides");
-
-        const countries = data
-          .map((c: any) => c?.name?.common)
-          .filter((name: string): name is string => typeof name === "string" && name.trim() !== "")
-          .sort((a, b) => a.localeCompare(b, "fr")); // Tri en français
-        
-        setPaysList(countries);
-        console.log(`✅ ${countries.length} pays chargés`);
-        
-      } catch (err) {
-        console.error("❌ Erreur API pays:", err);
-        
-        // ✅ Fallback : liste de pays en dur
-        const fallback = [
-          "France", "Belgique", "Suisse", "Canada", "Luxembourg",
-          "Allemagne", "Espagne", "Italie", "Portugal", "Pays-Bas",
-          "Royaume-Uni", "Irlande", "Autriche", "Grèce", "Pologne",
-          "Autre"
-        ].sort((a, b) => a.localeCompare(b, "fr"));
-        
-        setPaysList(fallback);
-        console.log("⚠️ Fallback: liste de pays par défaut");
-      } finally {
-        setPaysLoading(false);
-      }
-    };
-    fetchCountries();
-  }, []);
+  // ❌ useEffect pour les pays SUPPRIMÉ (plus nécessaire)
 
   const handleChange = (name: string, value: string) => {
     setFormData(prev => ({ ...prev, [name]: value }));
     if (errors[name]) setErrors(prev => ({ ...prev, [name]: "" }));
   };
 
+  // ✅ Validation Step 2 - MODIFIÉE
   const validateStep2 = (): boolean => {
     const newErrors: Errors = {};
     if (!formData.nom.trim()) newErrors.nom = "Le nom est requis";
@@ -154,8 +81,8 @@ export default function Home() {
       newErrors.email = "Email invalide";
     }
     if (!formData.telephone.trim()) newErrors.telephone = "Le téléphone est requis";
-    if (!formData.pays.trim()) newErrors.pays = "Le pays est requis";
-    if (!formData.adresse.trim()) newErrors.adresse = "L'adresse est requise";
+    if (!formData.poste.trim()) newErrors.poste = "Le poste est requis";      // ← Nouveau
+    if (!formData.startup.trim()) newErrors.startup = "Le nom de la startup est requis";  // ← Nouveau
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -252,11 +179,11 @@ export default function Home() {
           {/* STEP 1 */}
           {step === 1 && (
             <motion.div key="step1" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
-              <h1 className="text-3xl font-bold mb-4"> Ateliers dediés aux startups</h1>
+              <h1 className="text-3xl font-bold mb-4">🚀 Ateliers dédiés aux startups</h1>
               <p className="mb-6 text-gray-600 leading-relaxed">Accélérez le développement de votre startup grâce à deux ateliers stratégiques.</p>
               <ul className="mb-8 space-y-3 text-gray-700">
                 <li>🇪🇺 Réussir son appel à projet Européen</li>
-                <li>Go to market : vendre à ses premiers clients</li>
+                <li>📈 Go to market : vendre à ses premiers clients</li>
               </ul>
               <div className="mb-8">
                 <p className="text-sm text-gray-500 font-semibold mb-4">Avec le soutien de :</p>
@@ -270,7 +197,7 @@ export default function Home() {
             </motion.div>
           )}
 
-          {/* STEP 2 */}
+          {/* STEP 2 - MODIFIÉ */}
           {step === 2 && (
             <motion.div key="step2" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }} className="space-y-4">
               <h2 className="text-2xl font-semibold mb-4">👤 Vos informations</h2>
@@ -278,16 +205,24 @@ export default function Home() {
               <FormInput label="Prénom" name="prenom" value={formData.prenom} onChange={handleChange} error={errors.prenom} />
               <FormInput label="Email" name="email" type="email" value={formData.email} onChange={handleChange} error={errors.email} />
               <FormInput label="Téléphone" name="telephone" value={formData.telephone} onChange={handleChange} error={errors.telephone} />
-              <FormSelect 
-                label="Sélectionnez votre pays" 
-                name="pays" 
-                value={formData.pays} 
+              
+              {/* ✅ Poste occupé (remplace Pays) */}
+              <FormInput 
+                label="Poste occupé" 
+                name="poste" 
+                value={formData.poste} 
                 onChange={handleChange} 
-                options={paysList} 
-                error={errors.pays}
-                loading={paysLoading}
+                error={errors.poste}
               />
-              <FormInput label="Adresse complète" name="adresse" value={formData.adresse} onChange={handleChange} error={errors.adresse} />
+              
+              {/* ✅ Nom de la startup (remplace Adresse) */}
+              <FormInput 
+                label="Nom de la startup" 
+                name="startup" 
+                value={formData.startup} 
+                onChange={handleChange} 
+                error={errors.startup}
+              />
 
               <div className="flex justify-between pt-6">
                 <button onClick={prevStep} className="text-gray-500 hover:text-black transition">Retour</button>
@@ -340,7 +275,7 @@ export default function Home() {
             </motion.div>
           )}
 
-          {/* STEP 4 */}
+          {/* STEP 4 - MODIFIÉ */}
           {step === 4 && (
             <motion.div key="step4" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.3 }} className="text-center py-8">
               <div className="text-6xl mb-4">🎉</div>
@@ -349,7 +284,8 @@ export default function Home() {
               <div className="bg-gray-50 rounded-xl p-6 text-left space-y-2">
                 <p><strong>👤 Nom :</strong> {formData.prenom} {formData.nom}</p>
                 <p><strong>📧 Email :</strong> {formData.email}</p>
-                <p><strong>🌍 Pays :</strong> {formData.pays}</p>
+                <p><strong>💼 Poste :</strong> {formData.poste}</p>
+                <p><strong>🚀 Startup :</strong> {formData.startup}</p>
                 <p><strong>🎓 Ateliers :</strong> {formData.ateliers.join(", ")}</p>
               </div>
             </motion.div>
