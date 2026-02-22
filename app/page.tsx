@@ -239,7 +239,7 @@ export default function Home() {
                   onClick={nextStep} 
                   className="w-full bg-black text-white py-4 md:py-5 rounded-xl hover:opacity-90 transition text-lg md:text-xl font-semibold shadow-lg hover:shadow-xl"
                 >
-                  Je m'inscris
+                  Je m'inscris gratuitement
                 </button>
                 <p className="text-center text-gray-400 text-sm mt-4">
                   Durée estimée : 2 minutes • Inscription gratuite
