@@ -179,7 +179,7 @@ export default function Home() {
           {/* STEP 1 */}
           {step === 1 && (
             <motion.div key="step1" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
-              <h1 className="text-3xl font-bold mb-4">🚀  MBA HILAIREstartups</h1>
+              <h1 className="text-3xl font-bold mb-4">🚀  MBA startups</h1>
               <p className="mb-6 text-gray-600 leading-relaxed">Accélérez le développement de votre startup grâce à deux ateliers stratégiques.</p>
               <ul className="mb-8 space-y-3 text-gray-700">
                 <li>🇪🇺 Réussir son appel à projet Européen</li>
