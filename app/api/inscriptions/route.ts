@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
 
     console.log('✅ Inscription créée avec succès:', data[0]);
 
-    // ✅ 2. Envoi email via EmailJS API REST (avec fetch)
+    // ✅ 2. Envoi email via EmailJS API REST 
     try {
       const emailResponse = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
         method: 'POST',
