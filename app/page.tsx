@@ -358,7 +358,7 @@ export default function Home() {
             <motion.div key="step4" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.3 }} className="text-center py-8 md:py-12">
               <div className="text-7xl md:text-8xl mb-6">🎉</div>
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">Merci pour votre inscription !</h2>
-              <p className="text-gray-600 mb-8 text-lg md:text-xl">Vous recevrez un email de confirmation sous peu. n'oublie pas de vérifier votre boîte de réception.</p>
+              <p className="text-gray-600 mb-8 text-lg md:text-xl">Vous recevrez un email de confirmation sous peu dans votre boîte de réception.</p>
                <p className="text-gray-500 text-base md:text-lg">
       ⚠️ N'oubliez pas de vérifier vos spams.
     </p>
