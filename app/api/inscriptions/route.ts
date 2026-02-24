@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
 
     console.log('✅ Inscription créée avec succès:', data[0]);
 
-    // ✅ 2. Envoi email automatique
+    // ✅ 2. Envoi d'email automatique
     try {
       await resend.emails.send({
         from: "Ateliers Startups <onboarding@resend.dev>", // ⚠️ à changer en prod
