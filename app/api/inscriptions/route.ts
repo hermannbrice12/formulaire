@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
-import emailjs from '@emailjs/browser';
+// ❌ Supprimez cette ligne : import emailjs from '@emailjs/browser';
 
 export async function POST(request: NextRequest) {
   console.log('📥 Requête reçue sur /api/inscriptions');
@@ -39,37 +39,48 @@ export async function POST(request: NextRequest) {
 
     console.log('✅ Inscription créée avec succès:', data[0]);
 
-    // ✅ 2. Envoi email via EmailJS
+    // ✅ 2. Envoi email via EmailJS API REST (avec fetch)
     try {
-      const templateParams = {
-        to_email: body.email,
-        to_name: `${body.prenom} ${body.nom}`,
-        prenom: body.prenom,
-        nom: body.nom,
-        email: body.email,
-        poste: body.poste,
-        startup: body.startup,
-        ateliers: body.ateliers.join(', '),
-        name: `${body.prenom} ${body.nom}`,
-        title: 'Confirmation inscription',
-      };
+      const emailResponse = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Origin': 'https://forumdeeptech2026.vercel.app',
+        },
+        body: JSON.stringify({
+          service_id: process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
+          template_id: process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
+          user_id: process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY,
+          template_params: {
+            to_email: body.email,
+            to_name: `${body.prenom} ${body.nom}`,
+            prenom: body.prenom,
+            nom: body.nom,
+            email: body.email,
+            poste: body.poste,
+            startup: body.startup,
+            ateliers: body.ateliers.join(', '),
+            name: `${body.prenom} ${body.nom}`,
+            title: 'Confirmation inscription',
+          },
+        }),
+      });
 
-      // ✅ Variables d'environnement au lieu des valeurs en dur
-      await emailjs.send(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
-        templateParams,
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
-      );
+      const emailResult = await emailResponse.json();
 
-      console.log('📧 Email envoyé avec succès à:', body.email);
+      if (emailResponse.ok) {
+        console.log('📧 Email envoyé avec succès à:', body.email);
+      } else {
+        console.error('⚠️ Erreur EmailJS API:', emailResult);
+      }
     } catch (mailError) {
       console.error('⚠️ Erreur envoi email (non bloquante):', mailError);
     }
 
+    // ✅ Retour de réponse
     return NextResponse.json({
       success: true,
-      data: data[0],  
+      data: data[0],
     });
 
   } catch (err: any) {
