@@ -69,7 +69,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       success: true,
-       data[0],
+      data: data[0],  
     });
 
   } catch (err: any) {
