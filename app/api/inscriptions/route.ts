@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
-// ❌ Supprimez cette ligne : import emailjs from '@emailjs/browser';
+
 
 export async function POST(request: NextRequest) {
   console.log('📥 Requête reçue sur /api/inscriptions');
