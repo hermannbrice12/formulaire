@@ -363,13 +363,7 @@ export default function Home() {
       ⚠️ N'oubliez pas de vérifier vos spams.
     </p>
               
-              <div className="bg-gray-50 rounded-xl p-6 md:p-8 text-left space-y-4 text-lg md:text-xl max-w-2xl mx-auto">
-                <p><strong>👤 Nom :</strong> {formData.prenom} {formData.nom}</p>
-                <p><strong>📧 Email :</strong> {formData.email}</p>
-                <p><strong>💼 Poste :</strong> {formData.poste}</p>
-                <p><strong>🚀 Startup :</strong> {formData.startup}</p>
-                <p><strong>🎓 Ateliers :</strong> {formData.ateliers.join(", ")}</p>
-              </div>
+             
             </motion.div>
           )}
         </AnimatePresence>
